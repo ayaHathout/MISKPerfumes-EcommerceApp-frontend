@@ -1,0 +1,14 @@
+.sidebar {
+  background-color: #384aeb !important;
+}
+
+.nav-link {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  transition: 0.3s ease;
+}

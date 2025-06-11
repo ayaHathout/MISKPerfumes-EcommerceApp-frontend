@@ -1,0 +1,125 @@
+<!-- checkout.component.html -->
+<section class="checkout_area section-margin--small">
+  <div class="order-address"
+     style="font-size: 16px; width: 1300px; max-width: 100%; margin: 100px auto; padding: 20px;
+            background-color: #f8f9fa; border-radius: 8px; overflow-y: auto;">
+
+  <h3 style="font-size: 30px; margin-bottom: 15px">Select Shipping Address</h3>
+
+  <div *ngFor="let address of addresses">
+    <label style="display: block; margin-bottom: 8px; font-size: 18px">
+      <input type="radio" name="shipping-address" [value]="address.addressId"
+             [checked]="selectedAddressId === address.addressId"
+             (change)="setAddress(address.addressId)" />
+      {{address.state}} - {{address.city}} - {{address.street}} - {{address.departmentNumber}}
+    </label>
+  </div>
+</div>
+
+
+  <div class="container">
+    <div class="order-box" style="font-size: 20px">
+      <h2 class="order-title" style="font-size: 30px">Your Order</h2>
+      <table class="order-table" style="width: 100%; border-collapse: collapse; font-size: 22px">
+        <thead>
+          <tr style="border-bottom: 2px solid #000">
+            <th style="text-align: left; padding: 10px">Product</th>
+            <th style="text-align: center; padding: 10px">Quantity</th>
+            <th style="text-align: right; padding: 10px">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of cartItems"
+              style="border-bottom: 1px solid #ddd" class="t-pro">
+            <td style="padding: 10px">{{item.name}}</td>
+            <td style="text-align: center; padding: 10px">x {{item.quantity}}</td>
+            <td style="text-align: right; padding: 10px" class="item-price">
+              {{item.price * item.quantity | currency:'EGP':'symbol'}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="order-summary" style="font-size: 22px; margin-top: 20px">
+        <li class="order-subtotal" style="display: flex; justify-content: space-between">
+          <span>Subtotal</span>
+          <span class="subtotal-price">{{subtotal | currency:'EGP':'symbol'}}</span>
+        </li>
+        <li class="order-shipping" style="display: flex; justify-content: space-between">
+          <span>Shipping</span>
+          <span class="shipping-price">shipping fees: {{shippingFee | currency:'EGP':'symbol'}}</span>
+        </li>
+        <li class="order-total"
+            style="display: flex; justify-content: space-between; font-weight: bold; font-size: 24px">
+          <span>Total</span>
+          <span class="overall-price">{{total | currency:'EGP':'symbol'}}</span>
+        </li>
+      </ul>
+
+      <div class="order-terms" style="font-size: 20px; margin-top: 20px">
+        <input type="checkbox" id="accept-terms" name="terms" [(ngModel)]="acceptTerms" />
+        <label for="accept-terms">&nbsp;I've read and accept the </label>
+        <a href="#" (click)="openTermsModal(); $event.preventDefault()">&nbsp;terms & conditions*</a>
+      </div>
+
+      <div class="order-confirm" style="text-align: center; margin-top: 20px">
+        <input type="hidden" name="addID" [value]="selectedAddressId" />
+
+        <button type="button" class="button button-confirm"
+                style="font-size: 22px; padding: 10px 20px" (click)="submitOrder()">
+          Confirm Order
+        </button>
+        <button type="button" class="button button-confirm"
+                style="font-size: 22px; padding: 10px 20px" (click)="discardOrder()">
+          Discard Order
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <div #toastElement class="toast align-items-center border-0" role="alert" aria-live="assertive"
+    aria-atomic="true" [class.text-bg-success]="toastSuccess" [class.text-bg-danger]="!toastSuccess">
+    <div class="d-flex">
+      <div class="toast-body">
+        {{toastMessage}}
+      </div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+        [class.btn-close-white]="!toastSuccess" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal fade" [class.show]="showTermsModal" [style.display]="showTermsModal ? 'block' : 'none'"
+     tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+        <button type="button" class="btn-close" (click)="closeTermsModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px; overflow-y: auto;">
+        <p>
+          By placing an order with MISK, you agree to the following:
+        </p>
+        <ul>
+          <li>-Your personal data will be used to process your order and support your experience on this site.</li>
+          <li>-Products may not be returned or exchanged once opened unless damaged or defective.</li>
+          <li>-Shipping times are estimated and may vary depending on your location and order volume.</li>
+          <li>-In case of order cancellation before shipping, a full refund will be processed within 5–7 business days.</li>
+          <li>-You are responsible for providing accurate delivery details to avoid shipment issues.</li>
+          <li>-All payments are secure and encrypted using trusted payment gateways.</li>
+        </ul>
+        <p>
+          *Please contact our customer service if you have any questions about these terms.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeTermsModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

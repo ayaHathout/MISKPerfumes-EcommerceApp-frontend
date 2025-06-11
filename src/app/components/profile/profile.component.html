@@ -1,0 +1,291 @@
+<!-- ================ Account section start ================= -->
+<!-- My Account Start -->
+<div class="my-account">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+          <a
+            class="nav-link" [class.active]="selectedTab === 'account'" (click)="selectedTab = 'account'">
+            Account Details
+          </a>
+          <a
+            class="nav-link" [class.active]="selectedTab === 'address'" (click)="selectedTab = 'address'">
+            Manage Addresses
+          </a>
+            <a
+              class="nav-link" [class.active]="selectedTab === 'credit'" (click)="selectedTab = 'credit'">
+              Credit Limit
+            </a>
+            <a
+              class="nav-link" [class.active]="selectedTab === 'password'" (click)="selectedTab = 'password'">
+              Change Password
+            </a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content">
+
+          <!-- Account Details Tab -->
+          <div *ngIf="selectedTab === 'account'">
+  <h4>Account Details</h4>
+  
+  <!-- Name Field -->
+  <div class="form-group">
+    <label>Name</label>
+    <input
+      type="text"
+      class="form-control input-field"
+      id="first-name"
+      [(ngModel)]="name"
+      [disabled]="!isEditMode"
+      #nameInput="ngModel"
+      required
+      minlength="2"
+      [class.is-invalid]="nameInput.invalid && (nameInput.dirty || nameInput.touched)"
+    />
+    <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="invalid-feedback">
+      <div *ngIf="nameInput.errors?.['required']">Name is required</div>
+      <div *ngIf="nameInput.errors?.['minlength']">Name must be at least 2 characters</div>
+    </div>
+  </div>
+  
+ <!-- Email Field -->
+<div class="form-group">
+  <label>Email</label>
+  <input
+    type="text"
+    class="form-control input-field"
+    [(ngModel)]="email"
+    [disabled]="!isEditMode"
+    (ngModelChange)="onEmailChange()"
+    #emailInput="ngModel"
+    required
+    email
+    [class.is-invalid]="(emailInput.touched || emailInput.dirty) && emailInput.invalid"
+  />
+  <div *ngIf="(emailInput.touched || emailInput.dirty) && emailInput.invalid" class="invalid-feedback">
+     <div *ngIf="emailInput.errors?.['required'] && !emailInput.value?.trim()">Email is required</div>
+     <div *ngIf="emailInput.value?.trim() && emailInput.errors?.['email']">
+      {{ emailError || 'Please enter a valid email address' }}
+    </div>
+  </div>
+</div>
+
+  <!-- Phone Field -->
+  <div class="form-group">
+    <label>Phone</label>
+    <input
+      type="text"
+      class="form-control input-field"
+      id="phone"
+      [(ngModel)]="phoneNumber"
+      [disabled]="!isEditMode"
+      #phoneInput="ngModel"
+      required
+      pattern="^01[0-9]{9}$"
+      maxlength="11"
+      [class.is-invalid]="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)"
+    />
+    <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="invalid-feedback">
+      <div *ngIf="phoneInput.errors?.['required']">Phone number is required</div>
+      <div *ngIf="phoneInput.errors?.['pattern']">Please enter a valid Egyptian phone number (e.g. 01012345678)</div>
+    </div>
+  </div>
+  
+  <p *ngIf="showUpdateMessage" class="text-success mt-2">Updated successfully!</p>
+  
+  <button id="edit-account" class="btn btn-primary" *ngIf="!isEditMode" (click)="enableEdit()">Edit</button>
+  <button id="save-account" class="btn btn-success" *ngIf="isEditMode" 
+    [disabled]="nameInput.invalid || emailInput.invalid || phoneInput.invalid"
+    (click)="saveChanges()">
+    Save Changes
+  </button>
+</div>
+
+           <!-- Address Tab -->
+<div *ngIf="selectedTab === 'address'">
+  <h4>Manage Addresses</h4>
+  <button class="btn btn-success mb-2" (click)="addAddress()">
+    Add New Address
+  </button>
+
+  <div id="address-list" class="row">
+    <div *ngFor="let address of addresses; let i = index" class="col-md-6 mb-3">
+      <div class="card p-3">
+        <strong>{{ address.city }}, {{ address.state }}</strong>
+        <p>{{ address.street }}, Dept: {{ address.departmentNumber || "N/A" }}</p>
+        <button class="btn btn-danger mt-2" (click)="deleteAddress(i)">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Address Form -->
+  <div [ngClass]="{ 'd-none': !showAddressForm }" id="address-form-overlay">
+    <div id="address-form-container">
+      <h5 class="text-center mb-4">Add New Address</h5>
+      <div class="form-group mb-3">
+        <label class="d-block fw-bold">State *</label>
+        <select
+          class="form-control w-100 mt-1"
+          [(ngModel)]="newAddress.state"
+        >
+          <option value="" disabled selected>Select State</option>
+          <option value="Alexandria">Alexandria</option>
+          <option value="Aswan">Aswan</option>
+          <option value="Asyut">Asyut</option>
+          <option value="Beheira">Beheira</option>
+          <option value="Beni Suef">Beni Suef</option>
+          <option value="Cairo">Cairo</option>
+          <option value="Dakahlia">Dakahlia</option>
+          <option value="Damietta">Damietta</option>
+          <option value="Fayoum">Fayoum</option>
+          <option value="Gharbia">Gharbia</option>
+          <option value="Giza">Giza</option>
+          <option value="Ismailia">Ismailia</option>
+          <option value="Kafr El-Sheikh">Kafr El-Sheikh</option>
+          <option value="Luxor">Luxor</option>
+          <option value="Matrouh">Matrouh</option>
+          <option value="Minya">Minya</option>
+          <option value="Monufia">Monufia</option>
+          <option value="New Valley">New Valley</option>
+          <option value="North Sinai">North Sinai</option>
+          <option value="Port Said">Port Said</option>
+          <option value="Qalyubia">Qalyubia</option>
+          <option value="Qena">Qena</option>
+          <option value="Red Sea">Red Sea</option>
+          <option value="Sharqia">Sharqia</option>
+          <option value="Sohag">Sohag</option>
+          <option value="South Sinai">South Sinai</option>
+          <option value="Suez">Suez</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>City *</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="newAddress.city"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Street *</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="newAddress.street"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Department Number</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="newAddress.departmentNumber"
+        />
+      </div>
+
+      <div class="form-buttons mt-3">
+        <button class="btn btn-primary" (click)="saveAddress()">
+          Save Address
+        </button>
+        <button class="btn btn-secondary ms-2" (click)="cancelAddress()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Credit Limit Tab -->
+ <div *ngIf="selectedTab === 'credit'">
+  <h4>Credit Limit</h4>
+  <div class="form-group">
+    <label>Enter your credit limit</label>
+    <input
+      type="number"
+      class="form-control"
+      id="credit-limit"
+      min="1"
+      max="9999"
+      [(ngModel)]="creditLimit"
+      [disabled]="!isEditingForCredit"
+      #creditLimitValue
+    />
+    <small id="credit-error" class="text-danger"
+      *ngIf="isEditingForCredit && (+creditLimitValue.value < 1000 || +creditLimitValue.value > 50000)">
+      Value must be between 1000 and 50000
+    </small>
+  </div>
+  <p id="credit-update-message" class="text-success" *ngIf="showUpdateMessage">
+    Credit limit updated successfully!
+  </p>
+  <button class="btn btn-success" id="save-credit-limit" (click)="toggleEdit()" [disabled]="isEditingForCredit && (+creditLimitValue.value < 1000 || +creditLimitValue.value > 50000)">
+    {{ isEditingForCredit ? 'Save Changes' : 'Edit' }}
+  </button>
+</div>
+
+
+              <!-- Change Password Tab -->
+              <div *ngIf="selectedTab === 'password'">
+                <div class="password-change">
+                  <h4>Change Password</h4>
+                  <div class="form-group">
+                    <label for="current-password">Current Password *</label>
+                    <input
+                      type="password"
+                      id="current-password"
+                      class="form-control"
+                      [(ngModel)]="oldPassword"
+                      name="oldPassword"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="new-password">New Password *</label>
+                    <input
+                      type="password"
+                      id="new-password"
+                      class="form-control"
+                      [(ngModel)]="newPassword"
+                      name="newPassword"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="confirm-password">Confirm New Password *</label>
+                    <input
+                      type="password"
+                      id="confirm-password"
+                      class="form-control"
+                      [(ngModel)]="confirmPassword"
+                      name="confirmPassword"
+                    />
+                  </div>
+                  <button id="save-password" class="btn" (click)="changePassword()">Save Changes</button>
+                  <p id="password-update-message" class="update-message" *ngIf="showUpdateMessage">
+                    Password updated successfully!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Account End -->
+    <!-- ================ Account section end ================= -->
+
+    <!-- Toast Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <!-- Regular Toast -->
+  <div #toastElement id="regularToast" class="toast align-items-center" 
+       [ngClass]="{'text-bg-success': toastSuccess, 'text-bg-danger': !toastSuccess}" 
+       role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">{{ toastMessage }}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>

@@ -1,0 +1,44 @@
+<!-- ================ offer section start ================= --> 
+    <section class="offer" id="parallax-1" style="background-image: url('img/home/parallax-bg.png'); background-size: cover; background-position: center;">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5">
+            <div class="offer__content text-center">
+              <h3>Up To 50% Off</h3>
+              <h4>Winter Sale</h4>
+              <p>Him she'd let them sixth saw light</p>
+              <a class="button button--active mt-3 mt-xl-4" routerLink="/products">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- ================ offer section end ================= -->  
+
+<!-- ================ Subscribe section start ================= --> 
+<section class="subscribe-position">
+  <div class="container">
+    <div class="subscribe text-center">
+      <h3 class="subscribe__title">Get Update From Anywhere</h3>
+      <p>Bearing Void gathering light light his evening unto don't afraid</p>
+
+      <!-- reactive form -->
+      <!-- <form class="subscribe-form form-inline mt-5 pt-1" (ngSubmit)="onSubscribe(subscribeForm)" #subscribeForm="ngForm" novalidate> -->
+        <form class="subscribe-form form-inline mt-5 pt-1"  novalidate>
+        <div class="form-group ml-sm-auto">
+          <input
+            class="form-control mb-1"
+            type="email"
+            name="email"
+            ngModel
+            required
+            placeholder="Your Email Address">
+        </div>
+        <button class="button button-subscribe mr-auto mb-1" type="submit">Subscribe Now</button>
+        <!-- <button class="button button-subscribe mr-auto mb-1" type="submit" [disabled]="!subscribeForm.valid">Subscribe Now</button> -->
+      </form>
+
+    </div>
+  </div>
+</section>
+<!-- ================ Subscribe section end ================= -->  

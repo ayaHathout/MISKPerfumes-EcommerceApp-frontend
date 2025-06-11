@@ -1,0 +1,109 @@
+<!--================Single Product Area =================-->
+<div class="product_image_area" style="margin-bottom: 100px" *ngIf="product">
+  <div class="container">
+    <div class="row s_product_inner">
+      <div class="col-lg-6">
+        <img class="img-fluid" 
+             [src]="product.imageUrl || 'img/gallery/1.jpg'" 
+             [alt]="product.name"/>
+      </div>
+
+      <div class="col-lg-5 offset-lg-1">
+        <div class="s_product_text">
+          <h2 class="singleProductnameInSingleProductDetailsPage">
+            {{ product.name }}
+          </h2>
+          <div *ngIf="product.quantity === 0" id="stock-message" style="color: red; font-weight: bold">
+            Out of Stock
+          </div>
+
+          <h3 class="singleProductPriceInSingleProductDetailsPage">
+            {{ product.price }} EGP
+          </h3>
+          <h4>Brand : <span>{{ product.brand }}</span></h4>
+          <h4>Gender : <span>{{ product.gender }}</span></h4>
+          <h4>Size : <span>{{ product.size }}</span></h4>
+
+          <p class="pro_desc">{{ product.description }}</p>
+
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              margin: 20px;
+              padding: 10px;
+              border: 1px solid #ddd;
+              border-radius: 5px;
+            "
+          >
+            <!-- Quantity Section -->
+            <div style="display: flex; align-items: center" id="theone">
+              <label style="margin-right: 10px; font-weight: bold">Quantity:</label>
+              <button class="increase items-count" type="button" (click)="increase()" [disabled]="quantity >= product.quantity" style="
+                padding: 5px 10px;
+                border: none;
+                background-color: #ddd;
+                cursor: pointer;
+                margin-right: 5px;
+              ">
+                <i class="ti-angle-up"></i>
+              </button>
+              <input type="text" [(ngModel)]="quantity" min="1" [max]="product.quantity ?? 1" readonly class="input-text qty" style="
+                width: 40px;
+                text-align: center;
+                border: 1px solid #ccc;
+                margin-right: 5px;
+              " />
+              <button class="reduced items-count" type="button" (click)="decrease()" [disabled]="quantity <= 1" style="
+                padding: 5px 10px;
+                border: none;
+                background-color: #ddd;
+                cursor: pointer;
+              ">
+                <i class="ti-angle-down"></i>
+              </button>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <button
+              class="button primary-btn ml-2"
+              (click)="addToCart()"
+              [disabled]="product.quantity === 0"
+              style="margin-left: auto"
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          <div id="stock-add-message" style="color: red; font-weight: bold; text-align: center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <!-- Regular Toast -->
+  <div #toastElement id="regularToast" class="toast align-items-center" 
+       [ngClass]="{'text-bg-success': toastSuccess, 'text-bg-danger': !toastSuccess}" 
+       role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">{{ toastMessage }}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+  
+  <!-- Login Required Toast -->
+  <div #loginToastElement id="loginToast" class="toast align-items-center text-bg-danger border-0" 
+       role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        You must log in to add items to the cart.
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+<!--================End Single Product Area =================-->

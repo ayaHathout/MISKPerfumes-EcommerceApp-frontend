@@ -1,0 +1,23 @@
+<div class="d-flex">
+  <nav class="sidebar bg-primary text-white p-3" style="min-height: 100vh; width: 220px;">
+    <h4 class="mb-4 font-weight-bold" style="color: #fff;">Admin Panel</h4>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="users"><i class="fa fa-users mr-2"></i>Users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="products"><i class="fa fa-tags mr-2"></i>Products</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="orders"><i class="fa fa-shopping-cart mr-2"></i>Orders</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white"(click)="logout()"><i class="fa fa-sign-out-alt mr-2"></i> Logout</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="flex-grow-1 p-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>

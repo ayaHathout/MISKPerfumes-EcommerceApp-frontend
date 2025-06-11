@@ -1,0 +1,70 @@
+<header class="header_area" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1050; background-color: white; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+  <div class="main_menu">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <a class="navbar-brand logo_h" routerLink="/home"><img src="img/logo1.png" alt="Logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+          <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+            <li class="nav-item"><a class="nav-link" routerLink="/home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/products">Shop</a></li>
+
+            <ng-container *ngIf="isLoggedIn; else guestLinks">
+              <li class="nav-item"><a class="nav-link" (click)="logout()" >LogOut</a></li>
+              <li class="nav-item"><a class="nav-link" routerLink="/profile">Profile</a></li>
+            </ng-container>
+
+            <ng-template #guestLinks>
+              <li class="nav-item"><a class="nav-link" (click)="goToLogin()" *ngIf="!isLoggedIn">LogIn</a></li>
+              <li class="nav-item"><a class="nav-link" routerLink="/register">Register</a></li>
+            </ng-template>
+
+            <li class="nav-item"><a class="nav-link" routerLink="/contact">Contact</a></li>
+          </ul>
+
+          <ul class="nav-shop">
+            <li class="nav-item">
+              <button class="cart-button" (click)="goToCart()">
+                <i class="ti-shopping-cart"></i>
+                <span class="nav-shop__circle">{{ cartItemCount || '' }}</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Toast Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <div #toastElement
+       id="regularToast"
+       class="toast align-items-center"
+       [ngClass]="{'text-bg-success': toastSuccess, 'text-bg-danger': !toastSuccess}"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">{{ toastMessage }}</div>
+      <button type="button"
+              class="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close">
+      </button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Temporary Simulation Button for Testing -->
+ <!-- <div class="text-center mt-2" *ngIf="!isLoggedIn">
+    <button class="btn btn-outline-primary btn-sm" (click)="simulateLogin()">Simulate Login</button>
+  </div> -->
+</header>
