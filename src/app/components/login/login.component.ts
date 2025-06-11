@@ -18,34 +18,26 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
-    this.authService.login(this.email, this.password).subscribe({
-      next: (res) => {
-        if (res.success && res.data?.token) {
-          this.authService.saveToken(res.data.token, res.data.role);
-          console.log('Login Response:', res);
-          console.log('Role:', res.data.role);
+  this.authService.login(this.email, this.password).subscribe({
+    next: (res) => {
+      if (res.success && res.data?.token) {
+        this.authService.saveToken(res.data.token, res.data.role);
 
-          const redirect = this.authService.getRedirectUrl();
-          if (redirect) {
-            this.authService.clearRedirectUrl();
-            this.router.navigateByUrl(redirect).catch(err => console.error('Redirect error:', err));
-          }
-          else {
-            // 👇 Redirect based on role
-          if (res.data.role === 'ADMIN') {
-            this.router.navigate(['/admin/users']);
-          } else {
-            this.router.navigate(['/home']);
-          }
-          }  
+        const role = res.data.role?.toUpperCase();
+        console.log('Role:', role);
+
+        if (role === 'ADMIN') {
+          this.router.navigate(['/admin/users']).catch(err => console.error('Admin redirect error:', err));
+        } else {
+          this.router.navigate(['/home']).catch(err => console.error('User redirect error:', err));
         }
-      },
-      error: (err) => {
-        console.error('Login failed', err);
-        this.showToast(false,'Invalid email or password!');
-      },
-    });
-  }
+      }
+    },
+    error: (err) => {
+      this.showToast(false, 'Invalid email or password!');
+    }
+  });
+}
 
   showPassword: boolean = false;
   togglePasswordVisibility(field: 'password') {
