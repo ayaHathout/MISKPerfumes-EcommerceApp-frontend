@@ -1,0 +1,20 @@
+/* .product_image_area {
+  padding: 50px 0;
+} */
+.s_product_text h2, .s_product_text h3, .s_product_text h4 {
+  margin-bottom: 15px;
+}
+.pro_desc {
+  margin-bottom: 20px;
+}
+/* .single-prd-item img {
+  width: 100%;
+  max-width: 400px;
+} */
+.button.primary-btn {
+  padding: 10px 20px;
+}
+.button.primary-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

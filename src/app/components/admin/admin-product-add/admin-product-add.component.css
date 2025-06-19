@@ -1,0 +1,18 @@
+input, textarea {
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid #ccc;
+}
+
+label {
+  font-weight: 600;
+}
+
+button.btn-primary {
+  background-color: #384aeb;
+  border: none;
+}
+
+button.btn-primary:hover {
+  background-color: #2f3bd4;
+}

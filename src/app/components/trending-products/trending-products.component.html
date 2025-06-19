@@ -1,0 +1,79 @@
+<app-banner></app-banner>
+<section class="section-margin calc-60px">
+  <div class="container">
+    <div class="section-intro pb-60px">
+      <p>Popular Item in the market</p>
+      <h2>Trending <span class="section-intro__style">Product</span></h2>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4 col-xl-3 mb-4" *ngFor="let perfume of trendingProducts">
+        <div class="card text-center card-product h-100" style="transition: all 0.3s ease; border: 1px solid #eee;">
+          <div class="card-product__img position-relative" style="width: 100%;">
+            <img [src]="perfume.imageUrl" [alt]="perfume.name" class="card-img" style="width: 76%;" />
+
+            <ul class="card-product__imgOverlay">
+              <li>
+                <a [routerLink]="['/product-details']" [queryParams]="{ id: perfume.id, name: perfume.name }">
+                  <i class="ti-eye"></i>
+                </a>
+              </li>
+              <li *ngIf="perfume.quantity > 0">
+                <button type="button" style="color: white;" (click)="addToCart($event, perfume)">
+                  <i class="ti-shopping-cart" style="margin-right: 5px;"></i>Add to cart
+                </button>
+              </li>
+            </ul>
+
+            <span *ngIf="perfume.quantity === 0"
+              class="badge position-absolute top-0 end-0 m-2"
+              style="font-size: 0.8rem; background-color: #384AEB; border: 1px solid white; color: white; padding: 5px 10px; font-weight: bold; z-index: 2;">
+              SOLD OUT
+            </span>
+          </div>
+
+          <div class="card-body d-flex flex-column justify-content-between">
+            <p class="mb-2">{{ perfume.brand }}</p>
+            <h4 class="card-product__title mb-2">
+              <a [routerLink]="['/product-details']"
+                 [queryParams]="{ id: perfume.id, name: perfume.name }"
+                 style="text-decoration: none; color: inherit;">
+                {{ perfume.name }}
+              </a>
+            </h4>
+            <p class="card-product__price mt-auto">{{ perfume.price }} EGP</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button_container mt-4 d-flex align-items-center justify-content-center">
+      <button class="button btn-outline-primary btn-lg m-3" routerLink="/products">Discover more</button>
+    </div>
+  </div>
+</section>
+<app-before-footer></app-before-footer>
+
+<!-- Toast Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <!-- Regular Toast -->
+  <div #toastElement id="regularToast" class="toast align-items-center" 
+       [ngClass]="{'text-bg-success': toastSuccess, 'text-bg-danger': !toastSuccess}" 
+       role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">{{ toastMessage }}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+  
+  <!-- Login Required Toast -->
+  <div #loginToastElement id="loginToast" class="toast align-items-center text-bg-danger border-0" 
+       role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        You must log in to add items to the cart.
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>

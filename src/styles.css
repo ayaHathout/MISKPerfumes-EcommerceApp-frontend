@@ -16,6 +16,9 @@ ul {
 a:hover {
   text-decoration: none;
 }
+a{
+  text-decoration: none;
+}
 button {
   cursor: pointer;
 }

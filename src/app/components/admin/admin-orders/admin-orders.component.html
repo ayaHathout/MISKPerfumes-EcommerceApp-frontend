@@ -1,0 +1,64 @@
+<div class="container-fluid section-margin">
+  <h2 class="section-intro__style mb-4">Orders List</h2>
+
+  <div class="row mb-3">
+    <div class="col-md-4 filter-bar-search">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by username .."
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table custom-table">
+      <thead>
+        <tr>
+          <th>Order No.</th>
+          <th>User</th>
+          <!-- <th>Address</th> -->
+          <th>Total</th>
+          <!-- <th>Date</th> -->
+          <th>Products</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders; let i = index">
+          <td>{{ order.orderId }}</td>
+          <td>{{ order.username }}</td>
+          <!-- <td>{{ order.address }}</td> -->
+          <td>{{ order.totalAmount }} EGP</td>
+          <!-- <td>{{ order.orderDate }}</td> -->
+          <td>
+            <ul class="list-unstyled mb-0">
+              <li *ngFor="let p of order.products">
+                {{ p.name }} (x{{ p.quantity }})
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul class="pagination justify-content-center mt-4">
+  <li class="page-item" [class.disabled]="currentPage === 0">
+    <button class="page-link" (click)="goToPage(currentPage - 1)">«</button>
+  </li>
+  <li
+    class="page-item"
+    *ngFor="let page of totalPagesArray; let i = index"
+    [class.active]="i === currentPage"
+  >
+    <button class="page-link" (click)="goToPage(i)">
+      {{ i + 1 }}
+    </button>
+  </li>
+  <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+    <button class="page-link" (click)="goToPage(currentPage + 1)">»</button>
+  </li>
+</ul>
+
+</div>
