@@ -1,6 +1,6 @@
 # MISK – E-Commerce Frontend for Perfume Store
 
-This repository contains only the **frontend project**; the backend is implemented separately in a **Spring project**: [MISK Ecommerce Angular Backend](https://github.com/ayaHathout/MISKPerfumes-Spring-EcommerceApp.git)
+This repository contains only the **frontend project**; the backend is implemented separately in a **Spring project**: [MISK Ecommerce Spring Backend](https://github.com/ayaHathout/MISKPerfumes-Spring-EcommerceApp.git)
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.14.
 
